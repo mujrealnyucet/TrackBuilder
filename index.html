@@ -9,40 +9,53 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="grid"></div>
-        <form class="track-select" name="trackSelect">
-            <input type="radio" name="track-radio" id="trava">
-            <label for="trava" class="trava">
-                <img src="./assets/trava.png" alt="" class="track-preview" draggable="false">
-            </label>
-            <input type="radio" name="track-radio" id="louka">
-            <label for="louka" class="louka">
-                <img src="./assets/louka.png" alt="" class="track-preview" draggable="false">
-            </label>
-            <input type="radio" name="track-radio" id="silnice-straight">
-            <label for="silnice-straight" class="silnice-straight">
-                <img src="./assets/silnice-straight.png" alt="" class="track-preview" draggable="false">
-            </label>
-            <input type="radio" name="track-radio" id="silnice-turn">
-            <label for="silnice-turn" class="silnice-turn">
-                <img src="./assets/silnice-turn.png" alt="" class="track-preview" draggable="false">
-            </label>
-            <input type="radio" name="track-radio" id="silnice-triple">
-            <label for="silnice-triple" class="silnice-triple">
-                <img src="./assets/silnice-triple.png" alt="" class="track-preview" draggable="false">
-            </label>
-            <input type="radio" name="track-radio" id="silnice-crossroad">
-            <label for="silnice-crossroad" class="silnice-crossroad">
-                <img src="./assets/silnice-crossroad.png" alt="" class="track-preview" draggable="false">
-            </label>
-            <button type="submit" style="display: none;"></button>
-        </form>
-        <div class="save-menu">
-            <button type="button" class="save-as-btn">Save as</button>
-            <button type="button" class="load-btn">Load</button>
+    <header>
+        <div class="title">
+            <h1>TrackBuilder</h1>
         </div>
-    </div>
+        <button type="button">Main Menu</button>
+        <button type="button">Editor</button>
+    </header>
+    <main>
+        <div class="container">
+            <div class="game">
+                <div class="grid"></div>
+                <form class="track-select" name="trackSelect">
+                    <input type="radio" name="track-radio" id="trava">
+                    <label for="trava" class="trava">
+                        <img src="./assets/trava.png" alt="" class="track-preview" draggable="false">
+                    </label>
+                    <input type="radio" name="track-radio" id="louka">
+                    <label for="louka" class="louka">
+                        <img src="./assets/louka.png" alt="" class="track-preview" draggable="false">
+                    </label>
+                    <input type="radio" name="track-radio" id="silnice-straight">
+                    <label for="silnice-straight" class="silnice-straight">
+                        <img src="./assets/silnice-straight.png" alt="" class="track-preview" draggable="false">
+                    </label>
+                    <input type="radio" name="track-radio" id="silnice-turn">
+                    <label for="silnice-turn" class="silnice-turn">
+                        <img src="./assets/silnice-turn.png" alt="" class="track-preview" draggable="false">
+                    </label>
+                    <input type="radio" name="track-radio" id="silnice-triple">
+                    <label for="silnice-triple" class="silnice-triple">
+                        <img src="./assets/silnice-triple.png" alt="" class="track-preview" draggable="false">
+                    </label>
+                    <input type="radio" name="track-radio" id="silnice-crossroad">
+                    <label for="silnice-crossroad" class="silnice-crossroad">
+                        <img src="./assets/silnice-crossroad.png" alt="" class="track-preview" draggable="false">
+                    </label>
+                    <button type="submit" style="display: none;"></button>
+                </form>
+                <div class="save-menu">
+                    <button type="button" class="save-as-btn">Save as</button>
+                    <button type="button" class="load-btn">Load</button>
+                </div>
+            </div>
+            <div class="load-menu">
+            </div>
+        </div>
+    </main>
 </body>
 </html>
 <script src="main.js"></script>
