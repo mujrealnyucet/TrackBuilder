@@ -32,6 +32,7 @@ grid.addEventListener('mouseover', (e) => {
     if (isMouseDown && e.target !== grid) {
         e.target.style.backgroundImage = `url(./assets/${selectedTrack}.png)`;
         e.target.style.border = "none";
+        storedGrid[e.target.id].trackStyle = selectedTrack; // update in storage
     }
 });
 
@@ -40,7 +41,6 @@ grid.addEventListener('mousedown', (e) => {
     if (storedGrid[e.target.id].trackStyle == selectedTrack) {
         e.target.style.transform += "rotate(90deg)";
         storedGrid[e.target.id].rotation = (storedGrid[e.target.id].rotation + 1) % 4; // only keep track of 4 states
-
     }
     else if (e.target !== grid) {
         e.target.style.backgroundImage = `url(./assets/${selectedTrack}.png)`;
@@ -53,7 +53,28 @@ grid.addEventListener('mousedown', (e) => {
 document.querySelector(".save-as-btn").addEventListener("click", (e) => {
     let projectName = prompt("Name your creation:")
     if (projectName) {
-        localStorage.setItem(projectName, storedGrid)
-        
+        localStorage.setItem(projectName, JSON.stringify(storedGrid))
     }
 });
+
+document.querySelector(".load-btn").addEventListener("click", (e) => {
+    LoadMap(localStorage.getItem('test')) // temporarily load the 'test' map
+});
+
+function LoadMap(savedMap) {
+    const parsedMap = JSON.parse(savedMap)
+    parsedMap.forEach(element => {
+        if (element.trackStyle != null) {
+            const tile = document.getElementById(element.id)
+            tile.style.backgroundImage = `url(./assets/${element.trackStyle}.png)`;
+            tile.style.border = "none"
+            tile.style.transform = `rotate(${90 * element.rotation}deg)`;
+            console.log(element)
+        }
+    });
+    storedGrid = parsedMap;
+}
+
+function ShowLoadMenu() {
+
+}
