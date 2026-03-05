@@ -78,3 +78,11 @@ function LoadMap(savedMap) {
 function ShowLoadMenu() {
 
 }
+
+window.onbeforeunload = function () {
+    if (true) {
+        return "If you reload this page, your previous action will be repeated";
+    } else {
+        //Don't return anything
+    }
+}
