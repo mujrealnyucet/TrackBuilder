@@ -69,7 +69,7 @@ fileInput.addEventListener('change', () => {
         displaySavedMaps();
     };
     reader.readAsText(file);
-    
+
 })
 
 document.querySelector(".save-as-btn").addEventListener("click", (e) => {
@@ -90,12 +90,17 @@ document.querySelector(".editor-btn").addEventListener("click", ShowGame)
 
 function saveMap(name, grid) {
     let maps = JSON.parse(localStorage.getItem('storedMaps')) || [];
-    const savedMap = {
-        name: name,
-        map: grid
-    }
-    maps.push(savedMap)
+    currentMap = maps.find(m => m.name == name)
 
+    if (currentMap) {
+        currentMap.map = grid;
+    } else {
+        const savedMap = {
+            name: name,
+            map: grid
+        }
+        maps.push(savedMap)
+    }
     localStorage.setItem('storedMaps', JSON.stringify(maps))
 }
 
