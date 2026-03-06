@@ -1,18 +1,19 @@
-let selectedTrack = "trava";
-const trackSelect = document.querySelector('.track-select').addEventListener('change', (event) => { selectedTrack = event.target.id });
-
 let size = 10;
-
 let storedGrid = []
+
+const trackSelect = document.querySelector('.track-select').addEventListener('change', (event) => { selectedTrack = event.target.id });
 const grid = document.querySelector(".grid")
 
-window.onload = function () {
-    displaySavedMaps()
-}
+const importBtn = document.querySelector('.import-btn');
+const fileInput = document.querySelector('.file-input');
+
+let isMouseDown = false;
+
+selectedTrack = "trava";
+displaySavedMaps()
 
 // Dynamicka generace gridu
 for (let index = 0; index < size * size; index++) {
-    //const coordinates = "" + Math.floor(index / size) + index % size // peak readibility
     const gridChild = document.createElement("div");
 
     gridChild.className = "grid-child";
@@ -28,16 +29,15 @@ for (let index = 0; index < size * size; index++) {
     grid.appendChild(gridChild)
 }
 
-let isMouseDown = false; // Keep track if mouse is held
-
 grid.addEventListener('mousedown', () => isMouseDown = true);
 document.addEventListener('mouseup', () => isMouseDown = false);
+
 
 grid.addEventListener('mouseover', (e) => {
     if (isMouseDown && e.target !== grid) {
         e.target.style.backgroundImage = `url(./assets/${selectedTrack}.png)`;
         e.target.style.border = "none";
-        storedGrid[e.target.id].trackStyle = selectedTrack; // update in storage
+        storedGrid[e.target.id].trackStyle = selectedTrack;
     }
 });
 
@@ -50,10 +50,27 @@ grid.addEventListener('mousedown', (e) => {
     else if (e.target !== grid) {
         e.target.style.backgroundImage = `url(./assets/${selectedTrack}.png)`;
         e.target.style.border = "none";
-        console.log(storedGrid[e.target.id])
-        storedGrid[e.target.id].trackStyle = selectedTrack; // update in storage
+        storedGrid[e.target.id].trackStyle = selectedTrack;
     }
 });
+
+importBtn.addEventListener('click', () => fileInput.click());
+
+fileInput.addEventListener('change', () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+        parsedData = JSON.parse(e.target.result)
+        parsedMap = JSON.stringify(parsedData);
+        saveMap(parsedData.name, parsedData.map)
+        displaySavedMaps();
+    };
+    reader.readAsText(file);
+    
+})
 
 document.querySelector(".save-as-btn").addEventListener("click", (e) => {
     let projectName = prompt("Name your creation:")
@@ -62,6 +79,14 @@ document.querySelector(".save-as-btn").addEventListener("click", (e) => {
         saveMap(projectName, storedGrid)
     }
 });
+
+
+document.querySelector(".main-menu-btn").addEventListener("click", (e) => {
+    ShowMenu()
+    displaySavedMaps()
+});
+
+document.querySelector(".editor-btn").addEventListener("click", ShowGame)
 
 function saveMap(name, grid) {
     let maps = JSON.parse(localStorage.getItem('storedMaps')) || [];
@@ -73,13 +98,6 @@ function saveMap(name, grid) {
 
     localStorage.setItem('storedMaps', JSON.stringify(maps))
 }
-
-document.querySelector(".main-menu-btn").addEventListener("click", (e) => {
-    ShowMenu()
-    displaySavedMaps()
-});
-
-document.querySelector(".editor-btn").addEventListener("click", ShowGame)
 
 function LoadMap(savedMap) {
     savedMap.forEach(element => {
@@ -162,27 +180,7 @@ function downloadJson(content, fileName) {
     a.click();
 }
 
-const importBtn = document.querySelector('.import-btn');
-const fileInput = document.querySelector('.file-input');
-
-importBtn.addEventListener('click', () => fileInput.click());
-
-fileInput.addEventListener('change', () => {
-    const file = fileInput.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-        parsedData = JSON.parse(e.target.result)
-        parsedMap = JSON.stringify(parsedData);
-        saveMap(parsedData.name, parsedData.map)
-        displaySavedMaps();
-    };
-    reader.readAsText(file);
-    
-})
-
+// would need to check if it's changed and unsaved, might do later
 // window.onbeforeunload = function () {
 //     if (true) {
 //         return "If you reload this page, your unsaved progress will be lost!";
