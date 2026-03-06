@@ -11,7 +11,7 @@
 <body>
     <header>
         <div class="title">
-            <h1>TrackBuilder</h1>
+            <h1><span>TrackBuilder</span></h1>
         </div>
         <button type="button" class="main-menu-btn">Main Menu</button>
         <button type="button" class="editor-btn">Editor</button>
@@ -48,7 +48,7 @@
                     <button type="submit" style="display: none;"></button>
                 </form>
                 <div class="save-menu">
-                    <button type="button" class="save-as-btn">Save as</button>
+                    <button type="button" class="save-as-btn">Save map</button>
                 </div>
             </div>
             <div class="main-menu">
@@ -56,10 +56,11 @@
                     <p>Hm, it seems you haven't saved anything yet.</p>
                     <p>Why don't you try <a onclick="ShowGame()" class="editor-btn" href="#">creating one</a> right now?</p>
                 </div>
-                <div class="saved-maps hidden">
-                    <h2>Saved Maps</h2>
+                <div class="save-load-screen hidden">
+                    <h2><span>Saved Maps</span></h2>
+                    <div class="saved-maps"></div>
                 </div>
-                <button type="button">Import from a file...</button>
+                <button type="button" class="import-btn">Import from a file...</button>
             </div>
         </div>
     </main>

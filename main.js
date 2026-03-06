@@ -109,12 +109,15 @@ function displaySavedMaps() {
 
     if (storedMaps) {
         document.querySelector(".no-saves-text").classList.add("hidden")
-        mapContainer.classList.remove("hidden")
+        document.querySelector(".save-load-screen").classList.remove("hidden")
 
         storedMaps.forEach(element => {
 
-            // The div
+            // The divs
             const mapItem = document.createElement("div");
+            const buttonDiv = document.createElement("div");
+            mapItem.classList.add("map-item")
+            buttonDiv.classList.add("map-item-buttons")
 
             // Map name
             const name = document.createElement('p')
@@ -128,7 +131,9 @@ function displaySavedMaps() {
             
             // Put it on the page
             mapItem.appendChild(name);
-            mapItem.appendChild(btn)
+            mapItem.appendChild(buttonDiv);
+
+            buttonDiv.appendChild(btn)
             mapContainer.appendChild(mapItem)
 
         });
