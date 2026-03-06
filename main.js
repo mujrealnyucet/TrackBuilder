@@ -105,9 +105,10 @@ function ShowMenu() {
 function displaySavedMaps() {
     const mapContainer = document.querySelector('.saved-maps');
 
-    const storedMaps = JSON.parse(localStorage.getItem('storedMaps')).reverse() || [];
+    const storedMapsRaw = localStorage.getItem('storedMaps');
 
-    if (storedMaps) {
+    if (storedMapsRaw) {
+        storedMaps = JSON.parse(storedMapsRaw).reverse() || [];
         document.querySelector(".no-saves-text").classList.add("hidden")
         document.querySelector(".save-load-screen").classList.remove("hidden")
 
