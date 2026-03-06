@@ -11,17 +11,17 @@
 <body>
     <header>
         <div class="title">
-            <h1>TrackBuilder</h1>
+            <h1><span>TrackBuilder</span></h1>
         </div>
-        <button type="button">Main Menu</button>
-        <button type="button">Editor</button>
+        <button type="button" class="main-menu-btn">Main Menu</button>
+        <button type="button" class="editor-btn">Editor</button>
     </header>
     <main>
         <div class="container">
-            <div class="game">
+            <div class="game hidden">
                 <div class="grid"></div>
                 <form class="track-select" name="trackSelect">
-                    <input type="radio" name="track-radio" id="trava">
+                    <input type="radio" name="track-radio" id="trava" checked="checked">
                     <label for="trava" class="trava">
                         <img src="./assets/trava.png" alt="" class="track-preview" draggable="false">
                     </label>
@@ -48,11 +48,20 @@
                     <button type="submit" style="display: none;"></button>
                 </form>
                 <div class="save-menu">
-                    <button type="button" class="save-as-btn">Save as</button>
-                    <button type="button" class="load-btn">Load</button>
+                    <button type="button" class="save-as-btn">Save map</button>
                 </div>
             </div>
-            <div class="load-menu">
+            <div class="main-menu">
+                <div class="no-saves-text">
+                    <p>Hm, it seems you haven't saved anything yet.</p>
+                    <p>Why don't you try <a onclick="ShowGame()" class="editor-btn" href="#">creating one</a> right now?</p>
+                </div>
+                <div class="save-load-screen hidden">
+                    <h2><span>Saved Maps</span></h2>
+                    <div class="saved-maps"></div>
+                </div>
+                <input type="file" class="file-input" style="display: none">
+                <button type="button" class="import-btn">Import from a file...</button>
             </div>
         </div>
     </main>
