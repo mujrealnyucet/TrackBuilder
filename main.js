@@ -76,6 +76,7 @@ function saveMap(name, grid) {
 
 document.querySelector(".main-menu-btn").addEventListener("click", (e) => {
     ShowMenu()
+    displaySavedMaps()
 });
 
 document.querySelector(".editor-btn").addEventListener("click", ShowGame)
@@ -108,6 +109,7 @@ function ShowMenu() {
 
 function displaySavedMaps() {
     const mapContainer = document.querySelector('.saved-maps');
+    mapContainer.innerHTML = '';
 
     const storedMapsRaw = localStorage.getItem('storedMaps');
 
@@ -175,9 +177,10 @@ fileInput.addEventListener('change', () => {
         parsedData = JSON.parse(e.target.result)
         parsedMap = JSON.stringify(parsedData);
         saveMap(parsedData.name, parsedData.map)
-        console.log('parsedData:', parsedData); // inspect in DevTools
+        displaySavedMaps();
     };
     reader.readAsText(file);
+    
 })
 
 // window.onbeforeunload = function () {
