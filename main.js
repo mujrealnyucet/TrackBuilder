@@ -125,21 +125,37 @@ function displaySavedMaps() {
             name.innerText = element.name;
 
             // Load Button
-            const btn = document.createElement('button');
-            btn.textContent = 'Load';
-            btn.dataset.map = JSON.stringify(element.map);
-            btn.addEventListener('click', () => LoadMap(JSON.parse(btn.dataset.map)));
-            
+            const loadBtn = document.createElement('button');
+            loadBtn.textContent = 'Load';
+            loadBtn.addEventListener('click', () => LoadMap(element.map));
+
+            // Export button
+            const exportBtn = document.createElement('button');
+            exportBtn.textContent = 'Export';
+            exportBtn.addEventListener('click', () => downloadJson(element.map, `${element.name}_exported.json`));
+
             // Put it on the page
             mapItem.appendChild(name);
             mapItem.appendChild(buttonDiv);
 
-            buttonDiv.appendChild(btn)
+            buttonDiv.appendChild(loadBtn)
+            buttonDiv.appendChild(exportBtn)
             mapContainer.appendChild(mapItem)
 
         });
     }
 }
+
+function downloadJson(content, fileName) {
+    var a = document.createElement("a");
+    var file = new Blob([JSON.stringify(content)], { type: 'text/plain' });
+    a.href = URL.createObjectURL(file);
+
+    a.download = fileName;
+    a.click();
+}
+
+//download(jsonData, 'json.txt', );
 
 // window.onbeforeunload = function () {
 //     if (true) {
