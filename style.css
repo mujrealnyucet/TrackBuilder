@@ -7,6 +7,10 @@
     padding-top: 50px;
 }
 
+.hidden {
+    display: none;
+}
+
 .grid {
     display: grid;
     grid-template-columns: repeat(10, auto);

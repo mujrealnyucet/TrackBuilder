@@ -6,6 +6,11 @@ let size = 10;
 let storedGrid = []
 const grid = document.querySelector(".grid")
 
+window.onload = function () {
+    displaySavedMaps()
+}
+
+// Dynamicka generace gridu
 for (let index = 0; index < size * size; index++) {
     //const coordinates = "" + Math.floor(index / size) + index % size // peak readibility
     const gridChild = document.createElement("div");
@@ -52,37 +57,88 @@ grid.addEventListener('mousedown', (e) => {
 
 document.querySelector(".save-as-btn").addEventListener("click", (e) => {
     let projectName = prompt("Name your creation:")
+
     if (projectName) {
-        localStorage.setItem(projectName, JSON.stringify(storedGrid))
+        let maps = JSON.parse(localStorage.getItem('storedMaps')) || [];
+        const savedMap = {
+            name: projectName,
+            map: storedGrid
+        }
+        maps.push(savedMap)
+
+        localStorage.setItem('storedMaps', JSON.stringify(maps))
     }
 });
 
-document.querySelector(".load-btn").addEventListener("click", (e) => {
-    LoadMap(localStorage.getItem('test')) // temporarily load the 'test' map
+document.querySelector(".main-menu-btn").addEventListener("click", (e) => {
+    ShowMenu()
 });
 
+document.querySelector(".editor-btn").addEventListener("click", ShowGame)
+
 function LoadMap(savedMap) {
-    const parsedMap = JSON.parse(savedMap)
-    parsedMap.forEach(element => {
+    savedMap.forEach(element => {
+        const tile = document.getElementById(element.id)
         if (element.trackStyle != null) {
-            const tile = document.getElementById(element.id)
             tile.style.backgroundImage = `url(./assets/${element.trackStyle}.png)`;
             tile.style.border = "none"
             tile.style.transform = `rotate(${90 * element.rotation}deg)`;
-            console.log(element)
+        } else {
+            tile.style.backgroundImage = "none";
+            tile.style.border = "1px solid #ccc"
         }
     });
-    storedGrid = parsedMap;
+    storedGrid = savedMap;
+    ShowGame();
 }
 
-function ShowLoadMenu() {
-
+function ShowGame() {
+    document.querySelector(".main-menu").classList.add("hidden")
+    document.querySelector(".game").classList.remove("hidden")
 }
 
-window.onbeforeunload = function () {
-    if (true) {
-        return "If you reload this page, your previous action will be repeated";
-    } else {
-        //Don't return anything
+function ShowMenu() {
+    document.querySelector(".game").classList.add("hidden")
+    document.querySelector(".main-menu").classList.remove("hidden")
+}
+
+function displaySavedMaps() {
+    const mapContainer = document.querySelector('.saved-maps');
+
+    const storedMaps = JSON.parse(localStorage.getItem('storedMaps')).reverse() || [];
+
+    if (storedMaps) {
+        document.querySelector(".no-saves-text").classList.add("hidden")
+        mapContainer.classList.remove("hidden")
+
+        storedMaps.forEach(element => {
+
+            // The div
+            const mapItem = document.createElement("div");
+
+            // Map name
+            const name = document.createElement('p')
+            name.innerText = element.name;
+
+            // Load Button
+            const btn = document.createElement('button');
+            btn.textContent = 'Load';
+            btn.dataset.map = JSON.stringify(element.map);
+            btn.addEventListener('click', () => LoadMap(JSON.parse(btn.dataset.map)));
+            
+            // Put it on the page
+            mapItem.appendChild(name);
+            mapItem.appendChild(btn)
+            mapContainer.appendChild(mapItem)
+
+        });
     }
 }
+
+// window.onbeforeunload = function () {
+//     if (true) {
+//         return "If you reload this page, your unsaved progress will be lost!";
+//     } else {
+//         //Don't return anything
+//     }
+// }
