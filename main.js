@@ -136,7 +136,8 @@ function displaySavedMaps() {
 
     const storedMapsRaw = localStorage.getItem('storedMaps');
 
-    if (storedMapsRaw) {
+    console.log(storedMapsRaw)
+    if (storedMapsRaw | storedMapsRaw != '[]') {
         storedMaps = JSON.parse(storedMapsRaw).reverse() || [];
         document.querySelector(".no-saves-text").classList.add("hidden")
         document.querySelector(".save-load-screen").classList.remove("hidden")
@@ -164,12 +165,19 @@ function displaySavedMaps() {
 
             exportBtn.addEventListener('click', () => downloadJson({ name: element.name, map: element.map }, `${element.name}_exported.json`));
 
+            // Delete button
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'Delete';
+
+            deleteBtn.addEventListener('click', () => removeMap(element));
+
             // Put it on the page
             mapItem.appendChild(name);
             mapItem.appendChild(buttonDiv);
 
             buttonDiv.appendChild(loadBtn)
             buttonDiv.appendChild(exportBtn)
+            buttonDiv.appendChild(deleteBtn)
             mapContainer.appendChild(mapItem)
 
         });
@@ -183,6 +191,13 @@ function downloadJson(content, fileName) {
 
     a.download = fileName;
     a.click();
+}
+
+function removeMap(map) {
+    let maps = JSON.parse(localStorage.getItem('storedMaps')) || [];
+    maps.splice(maps.indexOf(map), 1);
+    localStorage.setItem('storedMaps', JSON.stringify(maps))
+    displaySavedMaps();
 }
 
 // would need to check if it's changed and unsaved, might do later
