@@ -59,16 +59,20 @@ document.querySelector(".save-as-btn").addEventListener("click", (e) => {
     let projectName = prompt("Name your creation:")
 
     if (projectName) {
-        let maps = JSON.parse(localStorage.getItem('storedMaps')) || [];
-        const savedMap = {
-            name: projectName,
-            map: storedGrid
-        }
-        maps.push(savedMap)
-
-        localStorage.setItem('storedMaps', JSON.stringify(maps))
+        saveMap(projectName, storedGrid)
     }
 });
+
+function saveMap(name, grid) {
+    let maps = JSON.parse(localStorage.getItem('storedMaps')) || [];
+    const savedMap = {
+        name: name,
+        map: grid
+    }
+    maps.push(savedMap)
+
+    localStorage.setItem('storedMaps', JSON.stringify(maps))
+}
 
 document.querySelector(".main-menu-btn").addEventListener("click", (e) => {
     ShowMenu()
@@ -132,7 +136,8 @@ function displaySavedMaps() {
             // Export button
             const exportBtn = document.createElement('button');
             exportBtn.textContent = 'Export';
-            exportBtn.addEventListener('click', () => downloadJson(element.map, `${element.name}_exported.json`));
+
+            exportBtn.addEventListener('click', () => downloadJson({ name: element.name, map: element.map }, `${element.name}_exported.json`));
 
             // Put it on the page
             mapItem.appendChild(name);
@@ -155,7 +160,25 @@ function downloadJson(content, fileName) {
     a.click();
 }
 
-//download(jsonData, 'json.txt', );
+const importBtn = document.querySelector('.import-btn');
+const fileInput = document.querySelector('.file-input');
+
+importBtn.addEventListener('click', () => fileInput.click());
+
+fileInput.addEventListener('change', () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+        parsedData = JSON.parse(e.target.result)
+        parsedMap = JSON.stringify(parsedData);
+        saveMap(parsedData.name, parsedData.map)
+        console.log('parsedData:', parsedData); // inspect in DevTools
+    };
+    reader.readAsText(file);
+})
 
 // window.onbeforeunload = function () {
 //     if (true) {
